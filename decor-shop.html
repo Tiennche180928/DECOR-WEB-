@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LumiHouse | Không Gian Sống Tinh Tế</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8935A;
+    --gold-light: #D4AF78;
+    --dark: #1A1714;
+    --cream: #F5F0E8;
+    --warm-gray: #8A8580;
+    --border: rgba(184,147,90,0.25);
+    --white: #FDFAF5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(253,250,245,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px;
+  }
+  .logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; letter-spacing: 4px; color: var(--dark); text-decoration: none; }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dark); text-decoration: none; font-weight: 400; transition: color .25s; }
+  .nav-links a:hover { color: var(--gold); }
+  .cart-btn { background: var(--gold); color: #fff; border: none; padding: 10px 22px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .25s; }
+  .cart-btn:hover { background: var(--dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1A1714 0%, #2C2620 50%, #1A1714 100%);
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    padding: 100px 5% 60px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; right: 0; width: 55%; height: 100%;
+    background: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=80') center/cover; opacity: 0.35;
+  }
+  .hero-text { position: relative; z-index: 2; }
+  .hero-tag { display: inline-block; border: 1px solid var(--gold); color: var(--gold); padding: 6px 16px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 28px; }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px, 6vw, 80px); font-weight: 300; line-height: 1.1; color: #FDFAF5; margin-bottom: 24px; }
+  .hero h1 em { font-style: italic; color: var(--gold-light); display: block; }
+  .hero p { color: rgba(253,250,245,0.65); font-size: 16px; line-height: 1.8; max-width: 420px; margin-bottom: 40px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary { background: var(--gold); color: #fff; padding: 16px 36px; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: all .3s; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: #FDFAF5; padding: 16px 36px; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; border: 1px solid rgba(253,250,245,0.4); font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: all .3s; }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats { position: absolute; bottom: 50px; right: 5%; z-index: 2; display: flex; gap: 40px; }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; color: var(--gold-light); }
+  .stat-label { font-size: 11px; color: rgba(253,250,245,0.5); letter-spacing: 2px; text-transform: uppercase; }
+
+  /* SOCIAL BAR */
+  .social-bar { background: var(--dark); padding: 20px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .social-bar-text { color: rgba(253,250,245,0.6); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+  .social-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .social-link { display: flex; align-items: center; gap: 8px; padding: 9px 16px; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-decoration: none; border-radius: 2px; transition: all .25s; white-space: nowrap; }
+  .social-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .sl-shopee   { background: #F57224; color: #fff; }
+  .sl-shopee:hover { background: #E06010; }
+  .sl-lazada   { background: #0F146D; color: #fff; }
+  .sl-lazada:hover { background: #0A0F50; }
+  .sl-tiktok   { background: #111; color: #fff; }
+  .sl-tiktok:hover { background: #333; }
+  .sl-facebook { background: #1877F2; color: #fff; }
+  .sl-facebook:hover { background: #0D6EE8; }
+  .sl-instagram{ background: #C13584; color: #fff; }
+  .sl-instagram:hover { background: #a02d72; }
+  .sl-tiki     { background: #1BA8FF; color: #fff; }
+  .sl-tiki:hover { background: #0A90E0; }
+  .sl-sendo    { background: #E11A2C; color: #fff; }
+  .sl-sendo:hover { background: #C01020; }
+
+  /* SECTION */
+  .section { padding: 90px 5%; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-tag { display: inline-block; color: var(--gold); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 4vw, 52px); font-weight: 300; }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* CATEGORIES */
+  .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .cat-card { position: relative; overflow: hidden; cursor: pointer; border-radius: 2px; }
+  .cat-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; transition: transform .5s; }
+  .cat-card:hover img { transform: scale(1.06); }
+  .cat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,23,20,.85) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
+  .cat-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 4px; }
+  .cat-count { font-size: 12px; color: var(--gold-light); letter-spacing: 1px; }
+
+  /* PRODUCTS */
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px; }
+  .product-card { background: var(--white); cursor: pointer; transition: transform .3s; }
+  .product-card:hover { transform: translateY(-4px); }
+  .product-img { position: relative; overflow: hidden; border-radius: 2px; }
+  .product-img img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; transition: transform .5s; }
+  .product-card:hover .product-img img { transform: scale(1.05); }
+  .product-badge { position: absolute; top: 12px; left: 12px; background: var(--gold); color: #fff; font-size: 11px; letter-spacing: 1px; padding: 4px 10px; }
+  .product-wish { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; background: rgba(253,250,245,0.9); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; border-radius: 50%; transition: all .25s; opacity: 0; }
+  .product-card:hover .product-wish { opacity: 1; }
+  .product-wish:hover { background: var(--gold); }
+  .product-info { padding: 16px 4px; }
+  .product-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; margin-bottom: 4px; }
+  .product-sub { font-size: 12px; color: var(--warm-gray); letter-spacing: 0.5px; margin-bottom: 12px; }
+  .product-price-row { display: flex; align-items: baseline; justify-content: space-between; }
+  .price-current { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--gold); }
+  .price-old { font-size: 13px; color: var(--warm-gray); text-decoration: line-through; margin-left: 8px; }
+  .add-btn { background: var(--dark); color: #fff; border: none; padding: 8px 16px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .25s; }
+  .add-btn:hover { background: var(--gold); }
+
+  /* FILTER */
+  .filter-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+  .filter-label { font-size: 12px; color: var(--warm-gray); letter-spacing: 1px; text-transform: uppercase; }
+  .filter-btn { padding: 8px 20px; font-size: 12px; letter-spacing: 0.5px; border: 1px solid var(--border); background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; color: var(--dark); transition: all .2s; }
+  .filter-btn.active, .filter-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+  /* PROMO BANNER */
+  .promo-banner { background: var(--dark); margin: 0 5%; padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; position: relative; overflow: hidden; }
+  .promo-banner::after { content: ''; position: absolute; top: -40px; right: -40px; width: 300px; height: 300px; border: 1px solid var(--border); border-radius: 50%; }
+  .promo-text { position: relative; z-index: 1; }
+  .promo-tag { color: var(--gold); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
+  .promo-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 50px); font-weight: 300; color: #FDFAF5; line-height: 1.15; margin-bottom: 20px; }
+  .promo-title em { color: var(--gold-light); font-style: italic; }
+  .promo-desc { color: rgba(253,250,245,0.55); font-size: 15px; line-height: 1.7; }
+  .promo-image { position: relative; z-index: 1; }
+  .promo-image img { width: 100%; border-radius: 2px; object-fit: cover; max-height: 340px; }
+
+  /* WHY */
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+  .why-item { text-align: center; }
+  .why-icon { width: 56px; height: 56px; margin: 0 auto 20px; background: rgba(184,147,90,0.1); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .why-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; margin-bottom: 10px; }
+  .why-desc { font-size: 14px; color: var(--warm-gray); line-height: 1.7; }
+
+  /* TESTIMONIALS */
+  .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .testi-card { background: var(--cream); padding: 32px; border-left: 2px solid var(--gold); border-radius: 2px; }
+  .testi-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; }
+  .testi-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; line-height: 1.7; color: var(--dark); margin-bottom: 20px; }
+  .testi-name { font-size: 13px; font-weight: 500; color: var(--dark); }
+  .testi-loc { font-size: 12px; color: var(--warm-gray); }
+
+  /* NEWSLETTER */
+  .newsletter { background: var(--cream); text-align: center; padding: 80px 5%; }
+  .newsletter-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 3.5vw, 44px); font-weight: 300; margin-bottom: 12px; }
+  .newsletter p { color: var(--warm-gray); margin-bottom: 32px; }
+  .newsletter-form { display: flex; max-width: 480px; margin: 0 auto; }
+  .newsletter-form input { flex: 1; padding: 14px 20px; border: 1px solid var(--border); border-right: none; background: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; border-radius: 0; }
+  .newsletter-form button { background: var(--gold); color: #fff; border: none; padding: 14px 28px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .25s; white-space: nowrap; }
+  .newsletter-form button:hover { background: var(--dark); }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: rgba(253,250,245,0.6); padding: 60px 5% 30px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 50px; }
+  .footer-brand .logo { margin-bottom: 16px; display: block; color: #FDFAF5; }
+  .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { color: #FDFAF5; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; font-weight: 500; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { color: rgba(253,250,245,0.55); font-size: 14px; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-social-icons { display: flex; gap: 10px; margin-top: 20px; }
+  .footer-icon { width: 36px; height: 36px; border: 1px solid rgba(253,250,245,0.2); display: flex; align-items: center; justify-content: center; color: rgba(253,250,245,0.6); font-size: 13px; text-decoration: none; transition: all .25s; font-weight: 600; }
+  .footer-icon:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(253,250,245,0.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; }
+
+  /* FLOATING */
+  .float-social { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 90; }
+  .float-btn { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; border-radius: 2px; box-shadow: 0 3px 12px rgba(0,0,0,0.25); transition: transform .25s; font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 0.5px; text-align: center; font-weight: 600; }
+  .float-btn:hover { transform: scale(1.12) translateX(-4px); }
+  .fb-shopee   { background: #F57224; }
+  .fb-lazada   { background: #0F146D; }
+  .fb-tiktok   { background: #111; }
+  .fb-facebook { background: #1877F2; }
+  .fb-zalo     { background: #0068FF; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  .hero-text > * { animation: fadeUp .8s ease forwards; opacity: 0; }
+  .hero-text > *:nth-child(1) { animation-delay: .1s; }
+  .hero-text > *:nth-child(2) { animation-delay: .25s; }
+  .hero-text > *:nth-child(3) { animation-delay: .4s; }
+  .hero-text > *:nth-child(4) { animation-delay: .55s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 120px; }
+    .hero::before { width: 100%; opacity: 0.15; }
+    .hero-stats { position: static; margin-top: 40px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .promo-banner { grid-template-columns: 1fr; }
+    .float-social { display: none; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .promo-banner { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">LUMI<span>HOUSE</span></a>
+  <ul class="nav-links">
+    <li><a href="#categories">Danh mục</a></li>
+    <li><a href="#products">Sản phẩm</a></li>
+    <li><a href="#about">Về chúng tôi</a></li>
+    <li><a href="#reviews">Đánh giá</a></li>
+    <li><a href="#contact">Liên hệ</a></li>
+  </ul>
+  <button class="cart-btn" id="cart-btn">🛒 Giỏ hàng (0)</button>
+</nav>
+
+<!-- FLOATING SOCIAL -->
+<div class="float-social">
+  <a href="https://shopee.vn" target="_blank" class="float-btn fb-shopee" title="Shopee">Shopee</a>
+  <a href="https://lazada.vn" target="_blank" class="float-btn fb-lazada" title="Lazada">Lazada</a>
+  <a href="https://tiktok.com" target="_blank" class="float-btn fb-tiktok" title="TikTok">TikTok</a>
+  <a href="https://facebook.com" target="_blank" class="float-btn fb-facebook" title="Facebook">FB</a>
+  <a href="https://zalo.me" target="_blank" class="float-btn fb-zalo" title="Zalo">Zalo</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">✦ Bộ sưu tập mới 2025</div>
+    <h1>Không gian sống<em>tinh tế &amp; sang trọng</em></h1>
+    <p>Khám phá hàng nghìn sản phẩm decor cao cấp được tuyển chọn kỹ lưỡng — từ nội thất đến phụ kiện trang trí, mang lại linh hồn cho ngôi nhà của bạn.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Mua sắm ngay</a>
+      <a href="#categories" class="btn-outline">Xem bộ sưu tập</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">2,400+</div><div class="stat-label">Sản phẩm</div></div>
+    <div class="stat"><div class="stat-num">15K+</div><div class="stat-label">Khách hàng</div></div>
+    <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Đánh giá</div></div>
+  </div>
+</section>
+
+<!-- SOCIAL BAR -->
+<div class="social-bar">
+  <span class="social-bar-text">🛍 Mua sắm trên nền tảng bạn yêu thích</span>
+  <div class="social-links">
+    <a href="https://shopee.vn" target="_blank" class="social-link sl-shopee">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C9.8 2 8 3.8 8 6H5L3 22h18l-2-16h-3c0-2.2-1.8-4-4-4zm0 2c1.1 0 2 .9 2 2H10c0-1.1.9-2 2-2z"/></svg>
+      Shopee
+    </a>
+    <a href="https://lazada.vn" target="_blank" class="social-link sl-lazada">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg>
+      Lazada
+    </a>
+    <a href="https://tiki.vn" target="_blank" class="social-link sl-tiki">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path fill="white" d="M8 12h8M12 8v8" stroke="white" stroke-width="2"/></svg>
+      Tiki
+    </a>
+    <a href="https://sendo.vn" target="_blank" class="social-link sl-sendo">
+      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="3" width="20" height="18" rx="2"/></svg>
+      Sendo
+    </a>
+    <a href="https://tiktok.com/@lumihouse" target="_blank" class="social-link sl-tiktok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.11 8.11 0 004.79 1.56V6.79a4.85 4.85 0 01-1.02-.1z"/></svg>
+      TikTok Shop
+    </a>
+    <a href="https://facebook.com/lumihouse" target="_blank" class="social-link sl-facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </a>
+    <a href="https://instagram.com/lumihouse" target="_blank" class="social-link sl-instagram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Instagram
+    </a>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <div class="section-tag">✦ Bộ sưu tập</div>
+    <h2 class="section-title">Phong cách cho mọi <em>không gian</em></h2>
+  </div>
+  <div class="category-grid">
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=75" alt="Phòng khách" loading="lazy">
+      <div class="cat-overlay"><div class="cat-name">Phòng Khách</div><div class="cat-count">248 sản phẩm</div></div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=500&q=75" alt="Phòng ngủ" loading="lazy">
+      <div class="cat-overlay"><div class="cat-name">Phòng Ngủ</div><div class="cat-count">196 sản phẩm</div></div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=75" alt="Nhà bếp" loading="lazy">
+      <div class="cat-overlay"><div class="cat-name">Nhà Bếp</div><div class="cat-count">312 sản phẩm</div></div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1586880244406-556ebe35f282?w=500&q=75" alt="Phòng tắm" loading="lazy">
+      <div class="cat-overlay"><div class="cat-name">Phòng Tắm</div><div class="cat-count">144 sản phẩm</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section" id="products" style="background: var(--cream);">
+  <div class="section-header">
+    <div class="section-tag">✦ Nổi bật</div>
+    <h2 class="section-title">Sản phẩm <em>được yêu thích</em></h2>
+  </div>
+  <div class="filter-bar">
+    <span class="filter-label">Lọc:</span>
+    <button class="filter-btn active" onclick="filterProducts(this,'all')">Tất cả</button>
+    <button class="filter-btn" onclick="filterProducts(this,'new')">Mới nhất</button>
+    <button class="filter-btn" onclick="filterProducts(this,'sale')">Giảm giá</button>
+    <button class="filter-btn" onclick="filterProducts(this,'popular')">Bán chạy</button>
+  </div>
+  <div class="product-grid" id="product-grid">
+    <div class="product-card" data-tag="new popular">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=75" alt="Đèn thả trần boho" loading="lazy">
+        <span class="product-badge">Mới</span>
+        <button class="product-wish">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Đèn Thả Trần Boho</div>
+        <div class="product-sub">Mây tre đan thủ công · Kích thước 40cm</div>
+        <div class="product-price-row">
+          <div><span class="price-current">890.000₫</span><span class="price-old">1.200.000₫</span></div>
+          <button class="add-btn">+ Giỏ</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-tag="popular sale">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&q=75" alt="Bình hoa gốm" loading="lazy">
+        <span class="product-badge" style="background:var(--dark)">-25%</span>
+        <button class="product-wish">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Bình Hoa Gốm Mờ</div>
+        <div class="product-sub">Gốm cao cấp · Màu be xanh</div>
+        <div class="product-price-row">
+          <div><span class="price-current">450.000₫</span><span class="price-old">600.000₫</span></div>
+          <button class="add-btn">+ Giỏ</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-tag="new">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=500&q=75" alt="Tranh canvas" loading="lazy">
+        <span class="product-badge">Mới</span>
+        <button class="product-wish">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Tranh Canvas Trừu Tượng</div>
+        <div class="product-sub">In canvas cao cấp · 60×80cm</div>
+        <div class="product-price-row">
+          <div><span class="price-current">680.000₫</span></div>
+          <button class="add-btn">+ Giỏ</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-tag="popular sale">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=500&q=75" alt="Nến thơm" loading="lazy">
+        <span class="product-badge" style="background:var(--dark)">Hot</span>
+        <button class="product-wish">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Nến Thơm Luxury Set</div>
+        <div class="product-sub">3 nến · Hương hoa nhài &amp; gỗ đàn hương</div>
+        <div class="product-price-row">
+          <div><span class="price-current">320.000₫</span><span class="price-old">420.000₫</span></div>
+          <button class="add-btn">+ Giỏ</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-tag="new popular">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&q=75" alt="Gương treo" loading="lazy">
+        <span class="product-badge">Best seller</span>
+        <button class="product-wish">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Gương Khung Vàng Cổ Điển</div>
+        <div class="product-sub">Khung hợp kim mạ vàng · Ø 70cm</div>
+        <div class="product-price-row">
+          <div><span class="price-current">1.250.000₫</span></div>
+          <button class="add-btn">+ Giỏ</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-tag="sale">
+      <div class="product-img">
+        <img src="https://images.unsplash.com/photo-1521334884684-d80222895322?w=500&q=75" alt="Chậu cây" loading="lazy">
+        <span class="product-badge" style="background:var(--dark)">-30%</span>
+        <button class="product-wish">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Chậu Cây Terrazzo</div>
+        <div class="product-sub">Xi măng terrazzo · Kèm lót chậu</div>
+        <div class="product-price-row">
+          <div><span class="price-current">280.000₫</span><span class="price-old">400.000₫</span></div>
+          <button class="add-btn">+ Giỏ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:50px;">
+    <a href="#" class="btn-primary" style="display:inline-block;">Xem tất cả sản phẩm →</a>
+  </div>
+</section>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <div class="promo-text">
+    <div class="promo-tag">✦ Ưu đãi đặc biệt</div>
+    <h2 class="promo-title">Mua sắm trên<em>Shopee &amp; TikTok</em>giảm đến 40%</h2>
+    <p class="promo-desc">Theo dõi gian hàng trên các sàn thương mại điện tử để không bỏ lỡ những deal khủng nhất. Flash sale mỗi ngày!</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+      <a href="https://shopee.vn" target="_blank" class="btn-primary">🛍 Vào Shopee ngay</a>
+      <a href="https://tiktok.com" target="_blank" class="btn-outline">▶ TikTok Shop</a>
+    </div>
+  </div>
+  <div class="promo-image">
+    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80" alt="Decor nội thất" loading="lazy">
+  </div>
+</div>
+
+<!-- WHY US -->
+<section class="section" id="about">
+  <div class="section-header">
+    <div class="section-tag">✦ Tại sao chọn chúng tôi</div>
+    <h2 class="section-title">Cam kết <em>chất lượng</em></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon">🚚</div>
+      <h3 class="why-title">Giao hàng nhanh</h3>
+      <p class="why-desc">Giao hàng toàn quốc trong 2–5 ngày. Miễn phí vận chuyển đơn từ 500.000₫.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">✦</div>
+      <h3 class="why-title">Sản phẩm thuần Việt</h3>
+      <p class="why-desc">80% sản phẩm thủ công bởi nghệ nhân Việt Nam, chất liệu tự nhiên bền vững.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🔄</div>
+      <h3 class="why-title">Đổi trả dễ dàng</h3>
+      <p class="why-desc">30 ngày đổi trả không điều kiện nếu sản phẩm không đúng mô tả.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">💬</div>
+      <h3 class="why-title">Hỗ trợ 24/7</h3>
+      <p class="why-desc">Tư vấn qua Zalo, Facebook, hotline — luôn sẵn sàng phục vụ bạn.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="reviews" style="background:var(--cream);">
+  <div class="section-header">
+    <div class="section-tag">✦ Khách hàng nói gì</div>
+    <h2 class="section-title">Đánh giá <em>thật tâm</em></h2>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Chiếc đèn boho mình mua về đẹp hơn ảnh rất nhiều. Chất lượng hoàn toàn xứng đáng với giá tiền. Sẽ quay lại mua thêm!"</p>
+      <div class="testi-name">Nguyễn Thảo Linh</div>
+      <div class="testi-loc">Hà Nội · Mua qua Shopee</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Mình đặt set nến thơm làm quà tặng, đóng gói cực kỳ đẹp và giao nhanh hơn dự kiến. Người nhận cũng rất thích!"</p>
+      <div class="testi-name">Trần Minh Khoa</div>
+      <div class="testi-loc">TP. HCM · Mua qua TikTok Shop</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★☆</div>
+      <p class="testi-text">"Gốm sứ rất đẹp, màu sắc đúng mô tả. Nhân viên tư vấn nhiệt tình qua Zalo. Rất hài lòng với trải nghiệm mua hàng!"</p>
+      <div class="testi-name">Lê Phương Anh</div>
+      <div class="testi-loc">Đà Nẵng · Mua qua website</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter" id="contact">
+  <h2 class="newsletter-title">Nhận ưu đãi độc quyền</h2>
+  <p>Đăng ký email để nhận thông báo sớm nhất về sản phẩm mới và flash sale.</p>
+  <div class="newsletter-form">
+    <input type="email" id="email-input" placeholder="Nhập địa chỉ email của bạn...">
+    <button id="nl-btn">Đăng ký</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">LUMI<span>HOUSE</span></a>
+      <p>Chúng tôi mang đến những sản phẩm decor tinh tế, giúp bạn tạo nên không gian sống đẹp và đầy cảm hứng.</p>
+      <div class="footer-social-icons">
+        <a href="https://facebook.com" target="_blank" class="footer-icon">f</a>
+        <a href="https://instagram.com" target="_blank" class="footer-icon">ig</a>
+        <a href="https://tiktok.com" target="_blank" class="footer-icon">tt</a>
+        <a href="https://zalo.me" target="_blank" class="footer-icon">Z</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Sàn thương mại</h4>
+      <ul>
+        <li><a href="https://shopee.vn" target="_blank">🛍 Shopee</a></li>
+        <li><a href="https://lazada.vn" target="_blank">🛍 Lazada</a></li>
+        <li><a href="https://tiki.vn" target="_blank">🛍 Tiki</a></li>
+        <li><a href="https://sendo.vn" target="_blank">🛍 Sendo</a></li>
+        <li><a href="https://tiktok.com" target="_blank">▶ TikTok Shop</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Danh mục</h4>
+      <ul>
+        <li><a href="#">Phòng khách</a></li>
+        <li><a href="#">Phòng ngủ</a></li>
+        <li><a href="#">Nhà bếp</a></li>
+        <li><a href="#">Phòng tắm</a></li>
+        <li><a href="#">Ngoài trời</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Liên hệ</h4>
+      <ul>
+        <li><a href="#">📍 Hà Nội &amp; TP. HCM</a></li>
+        <li><a href="tel:+84900000000">📞 0900 000 000</a></li>
+        <li><a href="mailto:hello@lumihouse.vn">✉ hello@lumihouse.vn</a></li>
+        <li><a href="https://zalo.me" target="_blank">💬 Zalo: 0900 000 000</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 LumiHouse. Tất cả quyền được bảo lưu.</span>
+    <span>Chính sách bảo mật · Điều khoản sử dụng · Chính sách đổi trả</span>
+  </div>
+</footer>
+
+<script>
+  // Filter products
+  function filterProducts(btn, tag) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = (tag === 'all' || card.dataset.tag.includes(tag)) ? 'block' : 'none';
+    });
+  }
+
+  // Wishlist toggle
+  document.querySelectorAll('.product-wish').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isWished = this.textContent === '♥';
+      this.textContent = isWished ? '♡' : '♥';
+      this.style.background = isWished ? '' : '#e74c3c';
+      this.style.color = isWished ? '' : '#fff';
+    });
+  });
+
+  // Add to cart
+  let cartCount = 0;
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      cartCount++;
+      document.getElementById('cart-btn').textContent = '🛒 Giỏ hàng (' + cartCount + ')';
+      const orig = this.textContent;
+      this.textContent = '✓ Đã thêm';
+      this.style.background = '#27ae60';
+      setTimeout(() => { this.textContent = orig; this.style.background = ''; }, 1500);
+    });
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // Newsletter
+  document.getElementById('nl-btn').addEventListener('click', function() {
+    const input = document.getElementById('email-input');
+    if (input.value && input.value.includes('@')) {
+      this.textContent = '✓ Đã đăng ký!';
+      this.style.background = '#27ae60';
+      input.value = '';
+      setTimeout(() => { this.textContent = 'Đăng ký'; this.style.background = ''; }, 3000);
+    } else {
+      input.style.borderColor = '#e74c3c';
+      setTimeout(() => { input.style.borderColor = ''; }, 2000);
+    }
+  });
+</script>
+</body>
+</html>
